@@ -1,3 +1,4 @@
+#include "SDL3/SDL_stdinc.h"
 #include <stdint.h>
 #include <stdlib.h>
 #include <stdio.h>
@@ -116,9 +117,9 @@ internal void cpu_error(cpu_t *cpu) {
 }
 
 internal int cpu_init(cpu_t *cpu, const char *filename) {
-    memset(cpu, 0, sizeof(cpu_t));
+    SDL_memset(cpu, 0, sizeof(cpu_t));
     SDL_memset4(cpu->screen, COLOR_OFF, sizeof(cpu->screen)/4);
-    memcpy(cpu->memory, font, sizeof(font));
+    SDL_memcpy(cpu->memory, font, sizeof(font));
     cpu->pc = PC_START;
 
     FILE *game = fopen(filename, "rb");
@@ -396,12 +397,12 @@ internal void print_help() {
         "\n"
         "m : chip-8 (default: chip-8, more soon)"
     );
+    exit(-1);
 }
 
 int main(int argc, char* argv[]) {
     if (argc < 2) {
         print_help();
-        return -1;
     }
 
     cpu_t cpu = {0};
@@ -411,20 +412,17 @@ int main(int argc, char* argv[]) {
         if (SDL_strncmp("-m", argv[i], 2) == 0) {
             if (++i >= argc) {
                 print_help();
-                return -1;
             }
 
             if (SDL_strncmp("chip-8", argv[i], 6) == 0) {
                 cpu.mode = CHIP_8;
             } else {
                 print_help();
-                return -1;
             }
         } else if (filename == 0) {
             filename = argv[i];
         } else {
             print_help();
-            return -1;
         }
     }
 
@@ -464,9 +462,10 @@ int main(int argc, char* argv[]) {
         }
 
         for (int i=0; i < 700; ++i) { // ~1MHz
-            if (!cpu.draw) {
-                cpu_fetch(&cpu);
-                cpu_execute(&cpu);
+            cpu_fetch(&cpu);
+            cpu_execute(&cpu);
+            if (cpu.draw) {
+                break;
             }
         }
 
