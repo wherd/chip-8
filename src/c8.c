@@ -452,12 +452,22 @@ int main(int argc, char* argv[]) {
 
         SDL_Event event;
         while (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_EVENT_QUIT: {
+                    running = 0;
+                } break;
+                case SDL_EVENT_KEY_DOWN: {
+                    if (event.key.key == SDLK_ESCAPE) {
+                        running = 0;
+                    }
+                };
+            }
             if (event.type == SDL_EVENT_QUIT) {
                 running = 0;
             }
         }
 
-        for (int i=0; i < 700; ++i) { // ~1MHz
+        for (int i=0; i < 1200; ++i) { // ~1MHz
             cpu_fetch(&cpu);
             cpu_execute(&cpu);
             if (cpu.draw) {

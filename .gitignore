@@ -1,5 +1,7 @@
+c8
+d8
+*.ct8
+*.ch8
+*.dSYM
 .DS_Store
 .vscode
-c8
-c8.dSYM
-test

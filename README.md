@@ -14,6 +14,11 @@ Running from the command line:
 c8 [-m mode] game
 ```
 
+Disassembling chip8 game:
+```
+d8 [-o out.ct8] game
+```
+
 ### Dependencies:
 GNU C compiler<br>
 Command line tools if you are on Mac OS<br>
@@ -43,7 +48,7 @@ A copy of a Chip-8 Rom
 - [ ] Sound
 - [ ] Implement other Chip-8 variants
 - [ ] Chip-8 compiler
-- [ ] Chip-8 disassembler
+- [x] Chip-8 disassembler
 - [ ] Chip-8 debugger
 
 ## CHIP-8 Variants
